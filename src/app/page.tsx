@@ -76,7 +76,7 @@ export default function HomePage() {
       <section className="space-y-4">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold">Popular Dishes</h2>
-          <span className="text-sm text-orange-500 cursor-pointer">
+          <span onClick={() => window.location.href="/menu"} className="text-sm text-orange-500 cursor-pointer">
             See All →
           </span>
         </div>
@@ -88,7 +88,7 @@ export default function HomePage() {
               <p className="font-medium text-sm">{item}</p>
               <div className="flex justify-between items-center mt-1">
                 <span className="text-sm font-semibold text-orange-600">₦1,500</span>
-                <button className="bg-orange-500 text-white w-7 h-7 flex items-center justify-center rounded-full">
+                <button className="bg-orange-500 text-white w-7 h-7 flex items-center justify-center rounded-full" onClick={() => alert("Add to cart coming next")}>
                   <Plus size={14} />
                 </button>
               </div>
@@ -104,8 +104,8 @@ export default function HomePage() {
           Place your order now and pick up in 15 minutes!
         </p>
         <div className="flex gap-3 justify-center">
-          <PremiumButton>Browse Menu</PremiumButton>
-          <button className="bg-orange-100 text-orange-600 px-5 py-3 rounded-full">
+          <PremiumButton onClick={() => window.location.href="/menu"}>Browse Menu</PremiumButton>
+          <button className="bg-orange-100 text-orange-600 px-5 py-3 rounded-full" onClick={() => window.open("https://wa.me/2348059086041","_blank")}>
             WhatsApp
           </button>
         </div>
@@ -126,5 +126,8 @@ function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; 
     </div>
   );
 }
+
+
+
 
 

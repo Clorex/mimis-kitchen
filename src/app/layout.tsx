@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
-      <body className="bg-[#E8D9C5] flex justify-center py-6">
+      <body className="bg-[#E8D9C5] flex justify-center">
         <div className="w-full max-w-[430px] min-h-screen bg-[#F7EEE2] rounded-[32px] shadow-[0_10px_40px_rgba(0,0,0,0.08)] overflow-hidden relative pb-24">
           {children}
           <BottomNav />
