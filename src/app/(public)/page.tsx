@@ -1,133 +1,111 @@
 ﻿"use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, ChefHat, Zap, Wallet, Leaf, Plus, ShoppingCart } from "lucide-react";
-import PremiumButton from "@/components/ui/PremiumButton";
+import { useEffect, useState } from "react";
+import { getFoods } from "@/lib/db";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const [special, setSpecial] = useState<any>(null);
+  const [featured, setFeatured] = useState<any[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const load = async () => {
+      const foods = await getFoods();
+      setSpecial(foods.find((f: any) => f.isSpecial));
+      setFeatured(foods.filter((f: any) => f.featured));
+    };
+    load();
+  }, []);
+
   return (
-    <motion.main
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="px-6 pt-6 pb-28 space-y-10"
-    >
+    <main className="px-6 pt-6 pb-28 space-y-10">
 
       {/* HERO */}
       <section className="space-y-4">
-        <p className="text-sm text-orange-500">Welcome to Mimi's Kitchen</p>
-
-        <h1 className="text-4xl font-bold leading-tight">
-          What Are You <br />
-          <span className="text-orange-500">Eating Today?</span>
+        <h1 className="text-3xl font-bold">
+          What Are You Eating Today?
         </h1>
 
-        <p className="text-gray-600">
-          Fresh. Homemade. Ready daily.
-        </p>
-
-        <PremiumButton className="flex items-center gap-2">
-          Order Now <ArrowRight size={16} />
-        </PremiumButton>
+        <button
+          onClick={() => router.push("/menu")}
+          className="bg-orange-500 text-white px-6 py-3 rounded-full"
+        >
+          Browse Menu
+        </button>
       </section>
 
       {/* TODAY SPECIAL */}
-      <section className="space-y-4 relative">
-        <div className="flex justify-between items-center">
+      {special && (
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold">Today's Special</h2>
-          <span className="text-xs bg-red-500 text-white px-3 py-1 rounded-full">
-            Limited
-          </span>
-        </div>
 
-        <div className="bg-white rounded-3xl p-5 shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-orange-200">
+          <div
+            onClick={() => router.push("/menu")}
+            className="bg-white rounded-3xl p-5 shadow-md cursor-pointer"
+          >
+            {special.images?.[0]?.url && (
+              <Image
+                src={special.images[0].url}
+                alt={special.title}
+                width={400}
+                height={250}
+                className="rounded-xl mb-3 object-cover"
+              />
+            )}
 
-          <div className="h-44 bg-[#E6CFA7] rounded-2xl mb-4"></div>
+            <h3 className="font-semibold">{special.title}</h3>
+            <p className="text-sm text-gray-600">
+              {special.description}
+            </p>
 
-          <h3 className="text-lg font-semibold">Jollof Rice</h3>
-          <p className="text-sm text-gray-600 mb-3">
-            Classic Nigerian party jollof with rich tomato base and smoky flavor
-          </p>
-
-          <div className="flex gap-2 mb-3">
-            <span className="text-xs bg-orange-100 text-orange-600 px-3 py-1 rounded-full">Small</span>
-            <span className="text-xs bg-orange-200 text-orange-700 px-3 py-1 rounded-full">Big</span>
+            {special.portionOptions?.[0] && (
+              <p className="text-orange-600 font-bold mt-2">
+                ₦{special.portionOptions[0].price}
+              </p>
+            )}
           </div>
+        </section>
+      )}
 
-          <div className="flex justify-between items-center">
-            <span className="text-xl font-bold text-[#C62828]">₦1,500</span>
-
-            <button className="flex items-center gap-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] text-white px-4 py-2 rounded-full shadow-md">
-              <ShoppingCart size={16} /> Add
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="grid grid-cols-2 gap-4">
-        <Feature icon={<ChefHat size={20} />} title="Homemade Meals" desc="Cooked with love" />
-        <Feature icon={<Zap size={20} />} title="Fast Pickup" desc="Ready in 15 mins" />
-        <Feature icon={<Wallet size={20} />} title="Affordable" desc="Great portions" />
-        <Feature icon={<Leaf size={20} />} title="Fresh Daily" desc="Never frozen" />
-      </section>
-
-      {/* POPULAR DISHES */}
-      <section className="space-y-4">
-        <div className="flex justify-between items-center">
+      {/* FEATURED */}
+      {featured.length > 0 && (
+        <section className="space-y-4">
           <h2 className="text-lg font-semibold">Popular Dishes</h2>
-          <span onClick={() => window.location.href="/menu"} className="text-sm text-orange-500 cursor-pointer">
-            See All →
-          </span>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          {["Jollof Rice", "Fried Rice", "Egusi Soup", "Special Combo"].map((item, i) => (
-            <div key={i} className="bg-white rounded-2xl p-3 shadow-sm">
-              <div className="h-28 bg-[#E6CFA7] rounded-xl mb-2"></div>
-              <p className="font-medium text-sm">{item}</p>
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-sm font-semibold text-orange-600">₦1,500</span>
-                <button className="bg-orange-500 text-white w-7 h-7 flex items-center justify-center rounded-full" onClick={() => alert("Add to cart coming next")}>
-                  <Plus size={14} />
-                </button>
+          <div className="grid grid-cols-2 gap-4">
+            {featured.map((food: any) => (
+              <div
+                key={food.id}
+                className="bg-white rounded-2xl p-3 shadow-sm cursor-pointer"
+                onClick={() => router.push("/menu")}
+              >
+                {food.images?.[0]?.url && (
+                  <Image
+                    src={food.images[0].url}
+                    alt={food.title}
+                    width={200}
+                    height={150}
+                    className="rounded-xl mb-2 object-cover"
+                  />
+                )}
+
+                <p className="text-sm font-medium">
+                  {food.title}
+                </p>
+
+                {food.portionOptions?.[0] && (
+                  <p className="text-orange-600 text-sm font-semibold">
+                    ₦{food.portionOptions[0].price}
+                  </p>
+                )}
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* CTA */}
-      <section className="bg-white rounded-3xl p-6 text-center space-y-4 shadow-sm">
-        <h3 className="text-lg font-semibold">Hungry?</h3>
-        <p className="text-gray-600 text-sm">
-          Place your order now and pick up in 15 minutes!
-        </p>
-        <div className="flex gap-3 justify-center">
-          <PremiumButton onClick={() => window.location.href="/menu"}>Browse Menu</PremiumButton>
-          <button className="bg-orange-100 text-orange-600 px-5 py-3 rounded-full" onClick={() => window.open("https://wa.me/2348059086041","_blank")}>
-            WhatsApp
-          </button>
-        </div>
-      </section>
-
-    </motion.main>
+    </main>
   );
 }
-
-function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <div className="bg-white rounded-2xl p-4 text-center shadow-sm">
-      <div className="bg-orange-500 text-white w-10 h-10 flex items-center justify-center rounded-full mx-auto mb-2">
-        {icon}
-      </div>
-      <p className="font-medium text-sm">{title}</p>
-      <p className="text-xs text-gray-500">{desc}</p>
-    </div>
-  );
-}
-
-
-
-
-
