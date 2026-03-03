@@ -1,0 +1,9 @@
+{
+  "name": "Mimi's Kitchen",
+  "short_name": "Mimi's",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF3E0",
+  "theme_color": "#C62828",
+  "icons": []
+}

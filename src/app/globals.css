@@ -1,26 +1,30 @@
-@import "tailwindcss";
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-heading: var(--font-poppins);
+  --font-body: var(--font-inter);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background-color: #E6D8C3;
+  color: #212121;
 }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+.card-soft { @apply bg-white rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.06)]; }
+
