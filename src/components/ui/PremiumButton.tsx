@@ -2,11 +2,17 @@
 
 import { motion } from "framer-motion";
 
+interface PremiumButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}
+
 export default function PremiumButton({
   children,
   onClick,
   className = "",
-}) {
+}: PremiumButtonProps) {
   return (
     <motion.button
       whileTap={{ scale: 0.95 }}
@@ -17,4 +23,3 @@ export default function PremiumButton({
     </motion.button>
   );
 }
-

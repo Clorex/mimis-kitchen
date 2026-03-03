@@ -115,7 +115,7 @@ export default function HomePage() {
   );
 }
 
-function Feature({ icon, title, desc }) {
+function Feature({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
   return (
     <div className="bg-white rounded-2xl p-4 text-center shadow-sm">
       <div className="bg-orange-500 text-white w-10 h-10 flex items-center justify-center rounded-full mx-auto mb-2">
@@ -126,4 +126,5 @@ function Feature({ icon, title, desc }) {
     </div>
   );
 }
+
 

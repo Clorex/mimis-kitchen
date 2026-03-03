@@ -1,20 +1,21 @@
-﻿export async function uploadToCloudinary(file: File) {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('upload_preset', uploadPreset!)
-  formData.append('folder', 'mimis-kitchen/menu')
+﻿export async function uploadImage(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string);
 
   const res = await fetch(
-    https://api.cloudinary.com/v1_1//image/upload,
+    `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
     {
-      method: 'POST',
+      method: "POST",
       body: formData,
     }
-  )
+  );
 
-  const data = await res.json()
-  return data
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error?.message || "Upload failed");
+  }
+
+  return data;
 }
