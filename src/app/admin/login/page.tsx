@@ -1,39 +1,50 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
-export default function AdminLogin() {
-  const [password, setPassword] = useState("");
+export default function AdminLoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      document.cookie = "admin-auth=true; path=/";
+  const login = async (e: any) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       router.push("/admin");
-    } else {
-      alert("Wrong password");
+    } catch {
+      alert("Invalid login");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-96 space-y-4">
-        <h1 className="text-xl font-bold">Admin Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <form onSubmit={login} className="bg-white p-8 rounded-xl space-y-4 w-80">
+        <h2 className="text-xl font-bold text-center">Admin Login</h2>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full border p-2 rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
         <input
           type="password"
-          placeholder="Enter password"
-          className="w-full p-3 border rounded-lg"
+          placeholder="Password"
+          className="w-full border p-2 rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button
-          onClick={handleLogin}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg"
-        >
+
+        <button className="w-full bg-orange-500 text-white p-2 rounded">
           Login
         </button>
-      </div>
+      </form>
     </div>
   );
 }

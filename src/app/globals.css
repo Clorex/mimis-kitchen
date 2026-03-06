@@ -14,7 +14,7 @@ html, body {
 
 body {
   font-family: var(--font-body);
-  background-color: #E6D8C3;
+  background-color: #EDE1CF;
   color: #212121;
 }
 
@@ -26,5 +26,21 @@ button {
   transition: all 0.2s ease;
 }
 
-.card-soft { @apply bg-white rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.06)]; }
+.card-soft {
+  @apply bg-white rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.06)];
+}
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

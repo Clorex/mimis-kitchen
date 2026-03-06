@@ -1,18 +1,10 @@
-﻿import "../globals.css";
-import { Poppins, Inter } from "next/font/google";
-import BottomNav from "@/components/layout/BottomNav";
+﻿import BottomNav from "@/components/layout/BottomNav";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-poppins",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-inter",
-});
+export const metadata = {
+  title: "Mimi's Kitchen | Good Food. No Stress. | Lekki, Lagos",
+  description: "Freshly prepared Nigerian meals in Lekki. Jollof rice, fried rice, egusi soup and more. Fast pickup and delivery in Lagos.",
+  keywords: "food delivery lekki, best jollof in lekki, nigerian food lagos, mimi kitchen",
+};
 
 export default function PublicLayout({
   children,
@@ -20,13 +12,11 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
-      <body className="bg-[#E8D9C5] flex justify-center">
-        <div className="w-full max-w-[430px] min-h-screen bg-[#F7EEE2] rounded-[32px] shadow-lg relative pb-24">
-          {children}
-          <BottomNav />
-        </div>
-      </body>
-    </html>
+    <div className="bg-[#EDE1CF] min-h-screen flex justify-center">
+      <div className="w-full max-w-[420px] min-h-screen bg-[#F4E8D7] relative">
+        {children}
+        <BottomNav />
+      </div>
+    </div>
   );
 }
