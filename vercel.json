@@ -1,6 +1,0 @@
-﻿{
-  "buildCommand": "next build",
-  "outputDirectory": ".next",
-  "ignoreCommand": "echo ignoring functions",
-  "functions": {}
-}
